@@ -1,0 +1,6 @@
+.env
+bin/
+Logs
+NOTES.md
+obj/
+temp

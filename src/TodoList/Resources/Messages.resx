@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="EmailIsValid" xml:space="preserve"><value>The email must be valid.</value></data>
+  <data name="EquivalentPasswords" xml:space="preserve"><value>The passwords must be equivalent.</value></data>
+
+  <data name="FieldIsRequired" xml:space="preserve"><value>The field is required.</value></data>
+  <data name="FieldLengthBetween" xml:space="preserve"><value>The field must be between {0} and {1} characters long.</value></data>
+  <data name="FieldMaxLength" xml:space="preserve"><value>The field must be at most {0} characters long.</value></data>
+
+  <data name="InvalidCredentials" xml:space="preserve"><value>The credentials are invalid.</value></data>
+
+  <data name="PasswordResetRequest" xml:space="preserve"><value>Password reset request</value></data>
+
+  <data name="TodoNotFound" xml:space="preserve"><value>Todo not found.</value></data>
+  <data name="TooManyRequests" xml:space="preserve"><value>Too many requests. Please try again later.</value></data>
+
+  <data name="UnauthorizedOperation" xml:space="preserve"><value>You do not have permission to perform this action.</value></data>
+  <data name="UnexpectedRequestError" xml:space="preserve"><value>An error occurred while processing your request.</value></data>
+  <data name="UserAlreadyExists" xml:space="preserve"><value>This user already exists.</value></data>
+  <data name="UsernameIsValid" xml:space="preserve"><value>The field must only contain letters, numbers, underscore, dot, and hyphen.</value></data>
+  <data name="UserNotFound" xml:space="preserve"><value>User not found.</value></data>
+</root>

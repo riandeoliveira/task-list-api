@@ -1,0 +1,27 @@
+services:
+    todo-list-db:
+        image: postgres:16
+        container_name: ${DATABASE_NAME}
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: ${DATABASE_USER}
+            POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+            POSTGRES_DB: ${DATABASE_NAME}
+        ports:
+            - "${DATABASE_PORT}:5432"
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+
+    todo-list-api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: todo-list-api
+        restart: unless-stopped
+        depends_on:
+            - todo-list-db
+        ports:
+            - "8080:8080"
+
+volumes:
+    pgdata:

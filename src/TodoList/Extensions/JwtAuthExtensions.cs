@@ -1,0 +1,84 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using TodoList.Constants;
+using TodoList.Dtos;
+using TodoList.Interfaces;
+
+namespace TodoList.Extensions;
+
+public static class JwtAuthExtensions
+{
+    public static WebApplicationBuilder ConfigureJwtAuth(this WebApplicationBuilder builder)
+    {
+        builder
+            .Services.AddAuthorization()
+            .AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = true;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ClockSkew = TimeSpan.Zero,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(EnvironmentVariables.JwtSecret)
+                    ),
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ValidAudience = EnvironmentVariables.JwtAudience,
+                    ValidIssuer = EnvironmentVariables.JwtIssuer,
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Cookies["access_token"];
+
+                        if (!string.IsNullOrEmpty(accessToken))
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    },
+
+                    OnChallenge = async context =>
+                    {
+                        var i18n =
+                            context.HttpContext.RequestServices.GetRequiredService<II18nService>();
+
+                        context.HandleResponse();
+
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        context.Response.ContentType = "application/problem+json";
+
+                        var response = new ProblemDetailsDto(
+                            i18n.T("UnauthorizedOperation"),
+                            context.Response.StatusCode,
+                            context.Request.Path
+                        );
+
+                        await context.Response.WriteAsJsonAsync(response);
+                    },
+                };
+            });
+
+        return builder;
+    }
+
+    public static WebApplication UseJwtAuth(this WebApplication app)
+    {
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        return app;
+    }
+}
