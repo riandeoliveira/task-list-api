@@ -13,7 +13,7 @@ public class TodoController(ITodoHandler handler) : ControllerBase
 {
     [Authorize]
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TodoDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests, Type = typeof(ProblemDetailsDto))]
@@ -26,9 +26,9 @@ public class TodoController(ITodoHandler handler) : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        await handler.CreateAsync(request, cancellationToken);
+        var response = await handler.CreateAsync(request, cancellationToken);
 
-        return StatusCode(StatusCodes.Status201Created);
+        return StatusCode(StatusCodes.Status201Created, response);
     }
 
     [Authorize]
@@ -53,7 +53,7 @@ public class TodoController(ITodoHandler handler) : ControllerBase
 
     [Authorize]
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginationDto<TodoDto>))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(
@@ -74,7 +74,7 @@ public class TodoController(ITodoHandler handler) : ControllerBase
 
     [Authorize]
     [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TodoDto))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests, Type = typeof(ProblemDetailsDto))]
@@ -94,7 +94,7 @@ public class TodoController(ITodoHandler handler) : ControllerBase
 
     [Authorize]
     [HttpPatch("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TodoDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetailsDto))]
@@ -109,8 +109,8 @@ public class TodoController(ITodoHandler handler) : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        await handler.UpdateAsync(id, request, cancellationToken);
+        var response = await handler.UpdateAsync(id, request, cancellationToken);
 
-        return NoContent();
+        return StatusCode(StatusCodes.Status200OK, response);
     }
 }

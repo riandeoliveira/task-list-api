@@ -129,7 +129,7 @@ public class UserController(IUserHandler handler) : ControllerBase
     }
 
     [HttpPost("sign-up")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status409Conflict, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests, Type = typeof(ProblemDetailsDto))]
@@ -142,14 +142,14 @@ public class UserController(IUserHandler handler) : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        await handler.SignUpAsync(request, cancellationToken);
+        var response = await handler.SignUpAsync(request, cancellationToken);
 
-        return StatusCode(StatusCodes.Status201Created);
+        return StatusCode(StatusCodes.Status201Created, response);
     }
 
     [Authorize]
     [HttpPatch]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ProblemDetailsDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetailsDto))]
@@ -164,8 +164,8 @@ public class UserController(IUserHandler handler) : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        await handler.UpdateAsync(request, cancellationToken);
+        var response = await handler.UpdateAsync(request, cancellationToken);
 
-        return NoContent();
+        return Ok(response);
     }
 }

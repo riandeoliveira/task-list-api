@@ -1,6 +1,5 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using TodoList.Constants;
 using TodoList.Dtos;
@@ -10,7 +9,7 @@ namespace TodoList.Extensions;
 
 public static class JwtAuthExtensions
 {
-    public static WebApplicationBuilder ConfigureJwtAuth(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder ConfigureAuth(this WebApplicationBuilder builder)
     {
         builder
             .Services.AddAuthorization()
@@ -74,7 +73,7 @@ public static class JwtAuthExtensions
         return builder;
     }
 
-    public static WebApplication UseJwtAuth(this WebApplication app)
+    public static WebApplication UseAuth(this WebApplication app)
     {
         app.UseAuthentication();
         app.UseAuthorization();

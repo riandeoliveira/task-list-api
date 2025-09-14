@@ -1,3 +1,4 @@
+using TodoList.Dtos;
 using TodoList.Requests;
 
 namespace TodoList.Interfaces;
@@ -22,7 +23,13 @@ public interface IUserHandler
 
     public Task SignOutAsync(CancellationToken cancellationToken);
 
-    public Task SignUpAsync(SignUpUserRequest request, CancellationToken cancellationToken);
+    public Task<UserDto> SignUpAsync(
+        SignUpUserRequest request,
+        CancellationToken cancellationToken
+    );
 
-    public Task UpdateAsync(UpdateUserRequest request, CancellationToken cancellationToken);
+    public Task<UserDto> UpdateAsync(
+        UpdateUserRequest request,
+        CancellationToken cancellationToken
+    );
 }

@@ -1,7 +1,7 @@
 services:
     todo-list-db:
         image: postgres:16
-        container_name: ${DATABASE_NAME}
+        container_name: todo-list-db
         restart: unless-stopped
         environment:
             POSTGRES_USER: ${DATABASE_USER}

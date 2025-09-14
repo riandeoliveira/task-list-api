@@ -45,8 +45,12 @@ public class UserHandler(
         CancellationToken cancellationToken
     )
     {
-        var email = request.Email.Trim();
-        var user = await userRepository.FindOneAsync(x => x.Email == email, cancellationToken);
+        var usernameOrEmail = request.UsernameOrEmail.Trim();
+
+        var user = await userRepository.FindOneAsync(
+            x => x.Username == usernameOrEmail || x.Email == usernameOrEmail,
+            cancellationToken
+        );
 
         if (user is null)
         {
@@ -71,7 +75,7 @@ public class UserHandler(
         var viewModel = new ForgotUserPasswordViewModel(user.Name, resetPasswordUrl);
 
         var mailSender = new MailSenderDto(
-            Recipient: email,
+            Recipient: user.Email,
             Subject: i18n.T("PasswordResetRequest"),
             View: new ViewDto("ForgotUserPassword", viewModel)
         );
@@ -224,7 +228,10 @@ public class UserHandler(
         authService.ClearAuthCookiesFromClient();
     }
 
-    public async Task SignUpAsync(SignUpUserRequest request, CancellationToken cancellationToken)
+    public async Task<UserDto> SignUpAsync(
+        SignUpUserRequest request,
+        CancellationToken cancellationToken
+    )
     {
         var name = request.Name.Trim();
         var username = request.Username.Trim();
@@ -250,23 +257,29 @@ public class UserHandler(
             Password = hashedPassword,
         };
 
-        var createdUser = await userRepository.CreateAsync(user, cancellationToken);
-        var authTokens = authService.GenerateAuthTokens(createdUser.Id);
+        await userRepository.CreateAsync(user, cancellationToken);
+
+        var authTokens = authService.GenerateAuthTokens(user.Id);
 
         var personalRefreshToken = new PersonalRefreshToken()
         {
             Value = authTokens.RefreshToken.Value,
             ExpiresAt = authTokens.RefreshToken.ExpiresAt,
-            UserId = createdUser.Id,
+            UserId = user.Id,
         };
 
         await personalRefreshTokenRepository.CreateAsync(personalRefreshToken, cancellationToken);
         await unitOfWork.CommitAsync(cancellationToken);
 
         authService.SendAuthCookiesToClient(authTokens);
+
+        return new UserDto(user.Id, user.Name, user.Username, user.Email, user.CreatedAt);
     }
 
-    public async Task UpdateAsync(UpdateUserRequest request, CancellationToken cancellationToken)
+    public async Task<UserDto> UpdateAsync(
+        UpdateUserRequest request,
+        CancellationToken cancellationToken
+    )
     {
         var userId = authService.GetAuthenticatedUserId();
         var user = await userRepository.FindOneAsync(x => x.Id == userId, cancellationToken);
@@ -350,5 +363,7 @@ public class UserHandler(
         userRepository.Update(user);
 
         await unitOfWork.CommitAsync(cancellationToken);
+
+        return new UserDto(user.Id, user.Name, user.Username, user.Email, user.CreatedAt);
     }
 }

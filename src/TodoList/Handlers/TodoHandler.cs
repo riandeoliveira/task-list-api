@@ -13,7 +13,10 @@ public class TodoHandler(
     IUnitOfWork unitOfWork
 ) : ITodoHandler
 {
-    public async Task CreateAsync(CreateTodoRequest request, CancellationToken cancellationToken)
+    public async Task<TodoDto> CreateAsync(
+        CreateTodoRequest request,
+        CancellationToken cancellationToken
+    )
     {
         var userId = authService.GetAuthenticatedUserId();
 
@@ -26,6 +29,8 @@ public class TodoHandler(
 
         await todoRepository.CreateAsync(todo, cancellationToken);
         await unitOfWork.CommitAsync(cancellationToken);
+
+        return new TodoDto(todo.Id, todo.Title, todo.Description, todo.IsCompleted, todo.CreatedAt);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
@@ -94,7 +99,7 @@ public class TodoHandler(
         );
     }
 
-    public async Task UpdateAsync(
+    public async Task<TodoDto> UpdateAsync(
         Guid id,
         UpdateTodoRequest request,
         CancellationToken cancellationToken
@@ -119,5 +124,7 @@ public class TodoHandler(
         todoRepository.Update(todo);
 
         await unitOfWork.CommitAsync(cancellationToken);
+
+        return new TodoDto(todo.Id, todo.Title, todo.Description, todo.IsCompleted, todo.CreatedAt);
     }
 }

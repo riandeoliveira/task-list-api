@@ -5,7 +5,10 @@ namespace TodoList.Interfaces;
 
 public interface ITodoHandler
 {
-    public Task CreateAsync(CreateTodoRequest request, CancellationToken cancellationToken);
+    public Task<TodoDto> CreateAsync(
+        CreateTodoRequest request,
+        CancellationToken cancellationToken
+    );
 
     public Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 
@@ -16,7 +19,7 @@ public interface ITodoHandler
         CancellationToken cancellationToken
     );
 
-    public Task UpdateAsync(
+    public Task<TodoDto> UpdateAsync(
         Guid id,
         UpdateTodoRequest request,
         CancellationToken cancellationToken
