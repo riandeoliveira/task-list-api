@@ -14,6 +14,7 @@ await WebApplication
     .ConfigureRateLimiting()
     .Build()
     .UseLogger()
+    .UseDbContext()
     .UseApiDoc()
     .UseI18n()
     .UseHttp()
