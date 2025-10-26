@@ -40,4 +40,8 @@ NEW_VERSION="$MAJOR.$MINOR.$PATCH"
 
 sed -i "s|<Version>$CURRENT_VERSION</Version>|<Version>$NEW_VERSION</Version>|" "$CSPROJ_FILE"
 
+git add $CSPROJ_FILE
+git commit -m $NEW_VERSION
+git tag "v$NEW_VERSION"
+
 echo "✅ Version updated from $CURRENT_VERSION to $NEW_VERSION"
