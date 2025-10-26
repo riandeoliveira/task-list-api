@@ -3,6 +3,8 @@
         "csharpier.csharpier-vscode",
         "eamodio.gitlens",
         "ms-dotnettools.csharp",
-        "visualstudioexptteam.vscodeintellicode"
+        "streetsidesoftware.code-spell-checker-portuguese-brazilian",
+        "streetsidesoftware.code-spell-checker",
+        "visualstudioexptteam.vscodeintellicode",
     ]
 }

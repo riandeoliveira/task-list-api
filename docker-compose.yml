@@ -1,7 +1,7 @@
 services:
-    todo-list-db:
+    task-list-db:
         image: postgres:16
-        container_name: todo-list-db
+        container_name: task-list-db
         restart: unless-stopped
         environment:
             POSTGRES_USER: ${DATABASE_USER}
@@ -12,16 +12,16 @@ services:
         volumes:
             - pgdata:/var/lib/postgresql/data
 
-    todo-list-api:
+    task-list-api:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: todo-list-api
+        container_name: task-list-api
         restart: unless-stopped
         depends_on:
-            - todo-list-db
+            - task-list-db
         ports:
-            - "8080:8080"
+            - "${APP_PORT}:8080"
 
 volumes:
     pgdata:

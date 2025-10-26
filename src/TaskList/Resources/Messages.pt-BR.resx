@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="EmailMustBeValid" xml:space="preserve"><value>O e-mail deve ser válido.</value></data>
+  <data name="EquivalentPasswords" xml:space="preserve"><value>As senhas devem ser equivalentes.</value></data>
+
+  <data name="FieldIsRequired" xml:space="preserve"><value>O campo é obrigatório.</value></data>
+  <data name="FieldLengthBetween" xml:space="preserve"><value>O campo deve ter entre {0} e {1} caracteres.</value></data>
+  <data name="FieldMaxLength" xml:space="preserve"><value>O campo deve ter no máximo {0} caracteres.</value></data>
+
+  <data name="IncorrectCurrentPassword" xml:space="preserve"><value>A senha atual está incorreta.</value></data>
+  <data name="InvalidCredentials" xml:space="preserve"><value>As credenciais são inválidas.</value></data>
+
+  <data name="PasswordResetRequest" xml:space="preserve"><value>Solicitação de redefinição de senha</value></data>
+
+  <data name="TaskNotFound" xml:space="preserve"><value>Tarefa não encontrada.</value></data>
+  <data name="TooManyRequests" xml:space="preserve"><value>Muitas solicitações. Tente novamente mais tarde.</value></data>
+
+  <data name="UnauthorizedOperation" xml:space="preserve"><value>Você não possui permissão para realizar esta ação.</value></data>
+  <data name="UnexpectedRequestError" xml:space="preserve"><value>Um erro ocorreu ao processar sua solicitação.</value></data>
+  <data name="UserAlreadyExists" xml:space="preserve"><value>Este usuário já existe.</value></data>
+  <data name="UsernameMustBeValid" xml:space="preserve"><value>O campo deve conter apenas letras, números, sublinhado, ponto e hífen.</value></data>
+  <data name="UserNotFound" xml:space="preserve"><value>Usuário não encontrado.</value></data>
+</root>

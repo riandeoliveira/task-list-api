@@ -13,6 +13,4 @@ COPY .env ./out/.env
 
 WORKDIR /app/out
 
-CMD ["dotnet", "ef", "database", "update"]
-
-ENTRYPOINT ["dotnet", "TodoList.dll"]
+ENTRYPOINT ["dotnet", "TaskList.dll"]

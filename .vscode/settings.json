@@ -1,8 +1,40 @@
 {
-    "[csharp]": {
-        "editor.defaultFormatter": "csharpier.csharpier-vscode"
+    //
+    // Code Spell Checker (Extension)
+    //
+    "cSpell.language": "en,pt",
+    //
+    // CSharpier - Code formatter (Extension)
+    //
+    "csharpier.dev.useCustomPath": true,
+    //
+    // Diff Editor
+    //
+    "diffEditor.ignoreTrimWhitespace": true,
+    //
+    // Editor
+    //
+    "editor.formatOnSave": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    //
+    // Files
+    //
+    "files.eol": "\n",
+    "files.exclude": {
+        "**/.git": false
     },
-    "[xml]": {
-        "editor.defaultFormatter": "csharpier.csharpier-vscode"
-    }
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    //
+    // Git
+    //
+    "git.enableSmartCommit": true,
+    //
+    // Languages
+    //
+    "[csharp]": {
+        "editor.defaultFormatter": "csharpier.csharpier-vscode",
+    },
 }
